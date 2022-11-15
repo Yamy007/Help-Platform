@@ -41,7 +41,6 @@ INSTALLED_APPS = [
     
     #my settings
     'users',
-    'help',
     'main',
 ]
 

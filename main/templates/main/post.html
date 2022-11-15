@@ -1,0 +1,21 @@
+<form action="/article/post/create" method = "post">
+    {%csrf_token%}
+
+    <label for="type_id">Choose  type:</label>
+   
+    <select name="type_id" id="type_id">
+        {%for elem in type_article%}
+      <option value="{{elem.id}}">{{elem}}</option>
+         {%endfor%}
+    </select>
+   
+    <br><br>
+
+
+    <input name = "title" id = "title">
+    <input name = "image" id = "image">
+    <input name = "text" id = "text">
+    
+
+    <button type="submit" value="Submit">
+  </form>

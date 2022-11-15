@@ -1,0 +1,12 @@
+
+{% for elem in search_article %}
+<form action="/article/mypost/edit/{{elem.id}}/edit" method="post">
+{%csrf_token%}
+<input type = "text" name = "title" id = "title" value = "{{elem.title}}">
+<input type = "text" name = "image" id = "image" value = "{{elem.link_for_image}}">
+<input type = "text" name = "text" id = "text" value = "{{elem.text}}">
+<button type = "submit">Submit</button>
+</form>
+{%endfor%}
+
+
