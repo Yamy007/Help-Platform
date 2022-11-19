@@ -1,0 +1,24 @@
+
+<div class="search">
+  <h3 class="hint">Give a name to your group</h3>
+  <input class="form-control group-input" id="room-name-input" type="text" size="100"
+    placeholder="Write the name of the group here" /><br />
+  <input class="btn btn-primary submit-btn" id="room-name-submit" type="button" value="Group construction" />
+</div>
+<script>
+  document.querySelector("#room-name-input").focus();
+  document.querySelector("#room-name-input").onkeyup = function (e) {
+    if (e.keyCode === 13) {
+      // enter, return
+      document.querySelector("#room-name-submit").click();
+    }
+  };
+
+  document.querySelector("#room-name-submit").onclick = function (e) {
+    var roomName = document.querySelector("#room-name-input").value;
+    if (roomName === "") {
+      var roomName = "welcome"
+    }
+    window.location.pathname = "/chat/" + roomName + "/";
+  };
+</script>

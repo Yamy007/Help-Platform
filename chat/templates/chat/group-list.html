@@ -1,0 +1,89 @@
+
+<h1 style="margin-top: 20px;">List of all groups</h1>
+<ul>
+  {% for group_name in page_obj %}
+  <a href="{% url 'index' %}{{ group_name }}">
+    <li style="color: {{group_list_color}}; border-color: {{group_list_color}};"
+      class="btn btn-outline-secondary all-group-btn">{{ group_name }}</li>
+  </a>
+  {% endfor %}
+</ul>
+
+
+
+<nav aria-label="...">
+  <ul class="pagination">
+    {% if page_obj.has_previous %}
+    <li class="page-item">
+      <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+    </li>
+    {% else %}
+    <li class="page-item disabled">
+      <span class="page-link">Previous</span>
+    </li>
+    {% endif %}
+
+
+    {% if page_obj.has_previous and page_obj.has_next %}
+    <li class="page-item">
+      <a class="page-link" href="?page={{ page_obj.number|add:-1 }}">{{ page_obj.number|add:-1 }}</a>
+    </li>
+    <li class="page-item active">
+      <span class="page-link">{{ page_obj.number }}</span>
+    </li>
+    <li class="page-item">
+      <a class="page-link" href="?page={{ page_obj.number|add:1 }}">{{ page_obj.number|add:1 }}</a>
+    </li>
+    {% endif %}
+
+    {% if page_obj.has_previous and not page_obj.has_next %}
+
+    {% if page_obj.number|add:-2 > 0 %}
+    <li class="page-item">
+      <a class="page-link" href="?page={{ page_obj.number|add:-2 }}">{{ page_obj.number|add:-2 }}</a>
+    </li>
+    {% endif %}
+
+    <li class="page-item">
+      <a class="page-link" href="?page={{ page_obj.number|add:-1 }}">{{ page_obj.number|add:-1 }}</a>
+    </li>
+    <li class="page-item active">
+      <span class="page-link">{{ page_obj.number }}</span>
+    </li>
+    {% endif %}
+
+    {% if not page_obj.has_previous and page_obj.has_next %}
+    <li class="page-item active">
+      <span class="page-link">{{ page_obj.number }}</span>
+    <li class="page-item">
+      <a class="page-link" href="?page={{ page_obj.number|add:1 }}">{{ page_obj.number|add:1 }}</a>
+    </li>
+
+    {% if page_obj.paginator.num_pages >= page_obj.number|add:2 %}
+    <li class="page-item">
+      <a class="page-link" href="?page={{ page_obj.number|add:2 }}">{{ page_obj.number|add:2 }}</a>
+    </li>
+    {% endif %}
+
+    </li>
+    {% endif %}
+
+    {% if not page_obj.has_previous and not page_obj.has_next %}
+    <li class="page-item active">
+      <span class="page-link">{{ page_obj.number }}</span>
+    </li>
+    {% endif %}
+
+    {% if page_obj.has_next %}
+    <li class="page-item">
+      <a class="page-link" href="?page={{ page_obj.next_page_number }}">next one</a>
+    </li>
+    {% else %}
+    <li class="page-item disabled">
+      <span class="page-link">next one</span>
+    </li>
+    {% endif %}
+  </ul>
+</nav>
+
+{% endblock content %

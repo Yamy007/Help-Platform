@@ -1,17 +1,16 @@
 import os
-
 from channels.auth import AuthMiddlewareStack
 from channels.routing import ProtocolTypeRouter, URLRouter
 from django.core.asgi import get_asgi_application
-import help.routing
+import chat.routing
 
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "TearHelper.settings")
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'TearHelper.settings')
 
 application = ProtocolTypeRouter({
-  "http": get_asgi_application(),
-  "websocket": AuthMiddlewareStack(
+    "http": get_asgi_application(),
+    "websocket": AuthMiddlewareStack(
         URLRouter(
-            help.routing.websocket_urlpatterns
+            chat.routing.websocket_urlpatterns
         )
     ),
 })

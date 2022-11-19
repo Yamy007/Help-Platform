@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>{{ room }} - caught</title>
+</head>
+
+<body>
+
+  <div class="container" >
+    <div class="chat-label">
+      <a href="{% url 'index' %}"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+          class="bi bi-forward-fill" viewBox="0 0 16 8">
+          <path
+            d="m9.77 12.11 4.012-2.953a.647.647 0 0 0 0-1.114L9.771 5.09a.644.644 0 0 0-.971.557V6.65H2v3.9h6.8v1.003c0 .505.545.808.97.557z" />
+        </svg> coming back</a>
+      <p href="/chat/{{ room }}">group "{{ room }}"</p>
+    </div>
+    <div class="chat-body">
+      <div class="messages">
+      </div>
+      <div class="message-input" >
+        <input id="chat-message-input" type="text" placeholder="write your message..." />
+        <button class="send-img" onclick="document.getElementById('inp').click();">
+          <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-image"
+            viewBox="0 0 16 16">
+            <path d="M6.002 5.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z" />
+            <path
+              d="M2.002 1a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2h-12zm12 1a1 1 0 0 1 1 1v6.5l-3.777-1.947a.5.5 0 0 0-.577.093l-3.71 3.71-2.66-1.772a.5.5 0 0 0-.63.062L1.002 12V3a1 1 0 0 1 1-1h12z" />
+          </svg>
+        </button>
+        <button class="send-msg" id="chat-message-submit" class="submit">
+          <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-send-fill"
+            viewBox="0 0 16 16">
+            <path
+              d="M15.964.686a.5.5 0 0 0-.65-.65L.767 5.855H.766l-.452.18a.5.5 0 0 0-.082.887l.41.26.001.002 4.995 3.178 3.178 4.995.002.002.26.41a.5.5 0 0 0 .886-.083l6-15Zm-1.833 1.89L6.637 10.07l-.215-.338a.5.5 0 0 0-.154-.154l-.338-.215 7.494-7.494 1.178-.471-.47 1.178Z" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+
+  <input id="inp" type='file' accept="image/*" style="display: none;">
+  <p id="b64"></p>
+
+  {{ room_id|json_script:"room-id" }}
+  <script>
+    const roomID = JSON.parse(document.getElementById("room-id").textContent);
+    var username = {{ username }}
+    const chatSocket = new WebSocket(
+      "ws://" + window.location.host + "/ws/id/" + roomID + "/"
+    );
+
+    const chatSocket2 = new WebSocket(
+      "ws://" + window.location.host + "/ws/id/{{ listener_id }}/"
+    );
+
+    chatSocket2.onmessage = function (e) {
+      var data = JSON.parse(e.data);
+      for (let i = data["members_list"].length - 1; i >= 0; i--) {
+        if (data["members_list"][i] == username) {
+          if (data["author"] != username) {
+            if (data["room_id"] != roomID) {
+              if ("Notification" in window) {
+                var button = document.getElementById("notification-click");
+
+                if (Notification.permission === "granted") {
+                  var notification = new Notification(
+                    `user"${data["author"]}" at "${data["room_name"]}" wrote: ${data["message"]}`
+                  );
+                } else if (Notification.permission !== "denied") {
+                  Notification.requestPermission().then(function (permission) {
+                    if (permission === "granted") {
+                      var notification = new Notification(
+                        `user "${data["author"]}" at "${data["room_name"]}" wrote: ${data["message"]}`
+                      );
+                    }
+                  });
+                }
+              }
+            }
+          }
+        }
+      }
+    };
+
+    chatSocket.onopen = function (e) {
+      chatSocket.send(
+        JSON.stringify({
+          command: "fetch_message",
+          room_name: roomID,
+        })
+      );
+      document.querySelector(".messages").innerHTML = "";
+    };
+
+    chatSocket.onmessage = function (e) {
+      const data = JSON.parse(e.data);
+      createMessage(data);
+      window.scrollTo(0, document.body.scrollHeight);
+    };
+
+    chatSocket.onclose = function (e) {
+      console.error("Chat socket closed unexpectedly");
+    };
+
+    document.querySelector("#chat-message-input").focus();
+    document.querySelector("#chat-message-input").onkeyup = function (e) {
+      if (e.keyCode === 13) {
+        // enter, return
+        document.querySelector("#chat-message-submit").click();
+      }
+    };
+
+    document.querySelector("#chat-message-submit").onclick = function (e) {
+      const messageInputDom = document.querySelector("#chat-message-input");
+      const message = messageInputDom.value;
+      chatSocket.send(
+        JSON.stringify({
+          message: message,
+          command: "new_message",
+          username: username,
+          room_name: roomID,
+        })
+      );
+      messageInputDom.value = "";
+    };
+
+    function createMessage(data) {
+      var author = data.author;
+      var command = data.command;
+      var time = data.time;
+      var message = document.createElement("div");
+      var messageAuthor = document.createElement("div");
+      messageAuthor.className = "name";
+      messageAuthor.textContent = author;
+      message.appendChild(messageAuthor);
+      if (command === "send_image") {
+        var content = document.createElement("img");
+        content.className = "image";
+        content.src = data.message;
+      } else {
+        var content = document.createElement("div");
+        content.className = "text";
+        content.textContent = data.message;
+      }
+      if (author === username) {
+        message.className = "answer right";
+      } else {
+        message.className = "answer left";
+      }
+      message.appendChild(content);
+      var messageTime = document.createElement("div");
+      messageTime.className = "time";
+      messageTime.textContent = time;
+      message.appendChild(messageTime);
+      document.querySelector(".messages").appendChild(message);
+      if (command === "send_image") {
+        window.scrollTo(0, document.body.scrollHeight);
+      }
+    }
+
+    function readFile() {
+      if (this.files && this.files[0]) {
+        var FR = new FileReader();
+        FR.addEventListener("load", function (e) {
+          chatSocket.send(
+            JSON.stringify({
+              message: e.target.result,
+              command: "send_image",
+              username: username,
+              room_name: roomID,
+            })
+          );
+        });
+        FR.readAsDataURL(this.files[0]);
+      }
+    }
+    document.getElementById("inp").addEventListener("change", readFile);
+
+  </script>
+</body>
+
+</html>

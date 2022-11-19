@@ -1,0 +1,56 @@
+
+<div class="search">
+  <h3 class="hint">Enter the group you like</h3>
+  <input class="form-control group-input" id="room-name-input" type="text" size="100"
+    placeholder="Write the name of the group here" /><br />
+  <input class="btn btn-primary submit-btn" id="room-name-submit" type="button" value="Let's go" />
+</div>
+
+{% if user.is_authenticated %} {% if your_groups_len %}
+<h1 class="title">Your groups</h1>
+<ul>
+  {% for group_name in your_groups %}
+  <a href="{% url 'index' %}{{ group_name }}">
+    <li style="color: {{your_group_color}}; border-color: {{your_group_color}};"
+      class="btn btn-outline-success custom-btn">{{ group_name }}</li>
+  </a>
+  {% endfor %}
+</ul>
+{% endif %} {% endif %}
+
+<h1 class="title">The hottest groups🔥</h1>
+<ul>
+  {% for group_name in best_groups %}
+  <a href="{% url 'index' %}{{ group_name }}">
+    <li style="color: {{hot_group_color}}; border-color: {{hot_group_color}};"
+      class="btn btn-outline-danger custom-btn">{{ group_name }}</li>
+  </a>
+  {% endfor %}
+</ul>
+
+<h1 class="title">Latest groups 🆕</h1>
+<ul>
+  {% for group_name in last_groups %}
+  <a href="{% url 'index' %}{{ group_name }}">
+    <li style="color: {{last_group_color}}; border-color: {{last_group_color}};"
+      class="btn btn-outline-primary custom-btn">{{ group_name }}</li>
+  </a>
+  {% endfor %}
+</ul>
+<script>
+  document.querySelector("#room-name-input").focus();
+  document.querySelector("#room-name-input").onkeyup = function (e) {
+    if (e.keyCode === 13) {
+      // enter, return
+      document.querySelector("#room-name-submit").click();
+    }
+  };
+
+  document.querySelector("#room-name-submit").onclick = function (e) {
+    var roomName = document.querySelector("#room-name-input").value;
+    if (roomName === "") {
+      var roomName = "welcome"
+    }
+    window.location.pathname = "/chat/" + roomName + "/";
+  };
+</script>
