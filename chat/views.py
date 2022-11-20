@@ -38,7 +38,7 @@ def room(request: object, room_name: str):
         chat.members.add(user)
     chat = Chat.objects.get(name=room_name)
     room_id = chat.room_id
-    return redirect(f'/id/{room_id}')
+    return redirect(f'/chat/id/{room_id}')
 
 
 def group_list(request: object):
@@ -84,6 +84,3 @@ def group_view(request: object, room_id: str):
     context = {**context, **color_fields}
     return render(request, "chat/room.html", context)
 
-
-def about(request: object):
-    return render(request, "chat/about.html")

@@ -5,14 +5,14 @@
     
     <div class="row mt-3">
     {% for elem in type_article%}
+
       <div class="col-lg-4">
-        <svg class="bd-placeholder-img rounded-circle" width="140" height="140" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 140x140" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#777"></rect><text x="50%" y="50%" fill="#777" dy=".3em">140x140</text></svg>
-        <img class = "bg-placeholder-img rounded-circle">
+        <img src="https://th.bing.com/th/id/R.2f33246f5ceee743b902e452d256aa5a?rik=tuRtLv2e5nxhUw&riu=http%3a%2f%2fwww.ahutton.com%2fcgw%2fclipart-hosp%2frx-27-01.png&ehk=Shw%2b34DSnsXQ93QLzKNacNeS%2f5ZrT5UU9fFaCHqJixU%3d&risl=&pid=ImgRaw&r=0"  class = "bg-placeholder-img rounded-circle">
         <h2 class="fw-normal">{{elem}}</h2>
         <p></p>
         <form action="/article/{{elem.id}}/" method="post">
             {% csrf_token %}
-            <button class="btn btn-secondary" type="submit">View details »</button>
+            <button class="btn btn-dark" color="navy" type="submit" >View details »</button>
         </form>
        
       </div>
@@ -33,21 +33,21 @@
             {%for elem in article%}
             <div class="col">
               <div class="card shadow-sm">
-                <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"></rect><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
+                <img src = "{{elem.link_for_image}}"  class=" bd-placeholder-img card-img-top" width="100%" height="225" >
     
-                <div class="card-body">
+                <div class="card-body" style="box-shadow: 0px 10px 10px 10px rgba(34, 60, 80, 0.2); ">
                   <h4 class="card-text">{{elem}}</h4>
                   <p class="card-text">{{elem.text}}</p>
-                  <div class="d-flex justify-content-between align-items-center">
+                  <div class="d-flex justify-content-between align-items-center" >
                     <div class="btn-group">
                       <form action="article/detail/{{elem.id}}/" method="post">
                         {% csrf_token%}
-                        <button type="submit" class="btn btn-sm btn-outline-secondary">View</button>
+                        <button type="submit" class="btn btn-outline-primary">View</button>
 
                       </form>
-                      <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+
                     </div>
-                    <small class="text-muted">9 mins</small>
+                    <small class="text-primary">{{elem.time}}</small>
                   </div>
                 </div>
               </div>

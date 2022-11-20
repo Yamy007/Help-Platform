@@ -44,6 +44,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'colorfield',
     #my settings
+    
+    
     'users',
     'chat',
     'main',
