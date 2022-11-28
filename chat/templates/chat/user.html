@@ -18,3 +18,12 @@
     <a href = "/chat/chat/transform/{{i}}">{{i.user_2}} - {{i.reason}}</a>
 {%endif%}
 {%endfor%}
+
+{%for i in chat%}
+{%if user.username != i.user_1%}
+    <a href = "/chat/chat/transform/{{i.name_hash}}">{{i.user_1}}</a>
+{%endif%}
+{%if user.username == i.user_1%}
+    <a href = "/chat/chat/transform/{{i.name_hash}}/">{{i.user_2}}</a>
+{%endif%}
+{%endfor%}

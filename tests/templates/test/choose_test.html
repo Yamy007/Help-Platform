@@ -1,27 +1,19 @@
-<!-- {% for test in tests %}
-<h1>
-    {{test}}
-</h1>
-{% endfor %} -->
-
-
-
+{%extends "test/layout.html"%}
+{%load static%}
 
 {%block content%}
 {%for elem in tests%}
 <article class="l-design-widht ">
-    <div class="card">
+  <div class="card card--inverted ">
+        <p>{{elem}}</p>
+        <form action="/test/test/{{elem.id}}/" method="post">
+          {%csrf_token%}
+        <button  type = "submit" class = " position">Choose this test!</button>
+      </form>
+      <div class="button-group">
        
-        <label class="input">
-          <input class="input__field" type="text" value="{{elem}}" disabled/>
-          <form action="/test/test/{{elem.id}}/" method="post">
-            {%csrf_token%}
-          <button  type = "submit" class = "mt-3 position">Choose this test!</button>
-        </form>
-          
       </div>
-</article>
-    
-    
+    </div>
+  </article>
     {%endfor%}
 {% endblock%}

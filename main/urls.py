@@ -12,5 +12,6 @@ urlpatterns = [
     path("article/mypost", mypost, name = "mypost" ),
     path("article/mypost/edit/<int:id>/", edit_get, name = "edit_get"),
     path("article/mypost/delete/<int:id>/", delete, name = "delete"),
-    path("article/mypost/edit/<int:id>/edit", edit_post, name = "edit_post")
+    path("article/mypost/edit/<int:id>/edit", edit_post, name = "edit_post"),
+    path('accounts/profile/', go)
 ]

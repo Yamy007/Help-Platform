@@ -41,7 +41,7 @@ def result(request, id):
                     lvl -= 1
 
             result = Result.objects.filter(test_id=id, lvl=lvl)
-            return render(request, "test/result.html", {"result": result})
+            return render(request, "test/result.html", {"result": result,  "id":id})
         elif len(result) == 0 and lvl < 5:
             while lvl > 0:
                 if len(Result.objects.filter(test_id=id, lvl=lvl)) != 0:
@@ -50,9 +50,9 @@ def result(request, id):
                     lvl += 1
 
             result = Result.objects.filter(test_id=id, lvl=lvl)
-            return render(request, "test/result.html", {"result": result})
+            return render(request, "test/result.html", {"result": result,  "id":id})
         else:
-            return render(request, "test/result.html", {"result": result})
+            return render(request, "test/result.html", {"result": result, "id":id})
 
 
 def about(request):

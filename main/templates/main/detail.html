@@ -64,8 +64,13 @@
  <!-- Комментар -->
  <div>
  <div class="mar-btm">
- <a  class="text-muted">{{elem.title}}</a>
- </div>
+{%if user == elem.title %}
+<h4  class="text-muted">{{elem.title}}</h4>
+{%endif%}
+{%if user != elem.title%}
+ <a href = "/chat/messages/user/{{elem.title}}/" class="text-muted">{{elem.title}}</a>
+{%endif%}
+</div>
  <p target="_blank" class="lead">  {{elem}}</p>
  <div>
  <div class="btn-group">
@@ -73,7 +78,7 @@
  <a class="btn btn-sm btn-default btn-hover-danger" href="#"><i class="fa fa-thumbs-down"></i></a>
  </div>
  </div>
- </div>
+ </div>   
 {%endfor%}
 {%endblock%}
 

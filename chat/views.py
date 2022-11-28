@@ -5,13 +5,30 @@ from django.shortcuts import redirect, render
 from django.utils.safestring import mark_safe
 from django.contrib.auth.decorators import login_required
 from django.utils.text import slugify
-from .models import Chat, Customize,Room ,PostHelp, TypePostHelp
+from .models import Chat, Customize,Room ,PostHelp,  PrivateChat
+from django.contrib.auth.models import User
+from django.db.models import Q
 
+def find_user(request, username):
+    if User.objects.filter(username=username):
+        create_hash = secrets.token_hex(nbytes=16)
+        find_private =PrivateChat.objects.filter(Q(user_1 = username) & Q(user_2 = username)) 
+        if PrivateChat.objects.filter(Q(user_1 = username) & Q(user_2 = username)):
+            return redirect(f"/chat/chat/transform/{find_private[0].name}")
+        if username != request.user.username:
+            private = PrivateChat()
+            private.user_1 = username
+            private.user_2 = request.user.username
+            private.name_hash = create_hash
+            private.save()
+            return redirect(f"/chat/chat/transform/{create_hash}")
+    else:
+        return redirect("/") 
 
 def post_help(request: object):
-    choose = TypePostHelp.objects.all()
+  
     new_post = PostHelp.objects.all().order_by("-date")
-    return render(request, "chat/post.html", {"choose":choose, "post": new_post})
+    return render(request, "chat/post.html", {"post": new_post})
 
 def post_post(request: object, id):
     find = PostHelp.objects.filter(id = id)
@@ -46,7 +63,10 @@ def user(request: object):
         your_groups = Chat.your_group(user)
         your_room_owner = Room.objects.filter(user_1 = request.user )
         your_room = Room.objects.filter(user_2 = request.user.username)
-        return render(request, "chat/user.html", {"rooms": your_room_owner, "room": your_room})
+        user_you  = request.user.username
+        find_private = PrivateChat.objects.filter(Q(user_1= request.user.username) | Q(user_2 = request.user.username)) # це тіпа or
+      
+        return render(request, "chat/user.html", {"rooms": your_room_owner, "room": your_room, "chat": find_private})
     else:
         redirect("/users/login")
         

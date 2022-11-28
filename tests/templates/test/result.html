@@ -6,11 +6,16 @@
 <div class="card card--accent">
 
     <label class="input">
-      <input class="input__field" type="text" value="{{result}}" />
+      {%for i in result%}
+      <input class="input__field" type="text" value="{{i.title}}" />
+      {%endfor%}
       <form action="/test/test/{{id}}/" method="post">
         {%csrf_token%}
-      <button  type = "submit" class = "mt-3 position">Restart</button>
-      <a href = "/test/choose" class = "btn mt-3">Choose diff test</a>
+      <div class = "d-flex justify-content-end mt-3" >
+        <button  type = "submit" class = "btn me-3 btn-dark" >Restart</button>
+        <a  href = "/test" class = " btn btn-dark ">Choose diff test</a>
+      </div>  
+
       </form>
   </div>
 </article>

@@ -22,20 +22,23 @@
         </a>
 
         <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-          <li><a href="#" class="nav-link px-2 text-secondary">Home</a></li>
+          <li><a href="/" class="nav-link px-2 text-secondary">Home</a></li>
           <li><a href="/chat" class="nav-link px-2 text-white">Chat</a></li>
-          <li><a href="#" class="nav-link px-2 text-white">Pricing</a></li>
-          <li><a href="#" class="nav-link px-2 text-white">FAQs</a></li>
+          <li><a href="/test" class="nav-link px-2 text-white">Test</a></li>
+          <li><a href="/chat/user" class="nav-link px-2 text-white">User</a></li>
           <li><a href="#" class="nav-link px-2 text-white">About</a></li>
         </ul>
 
-        <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
-          <input type="search" class="form-control form-control-dark" placeholder="Search..." aria-label="Search">
-        </form>
+     
 
         <div class="text-end">
-          <button type="button" class="btn btn-outline-light me-2">Login</button>
-          <button type="button" class="btn btn-warning">Sign-up</button>
+          {%if not user.is_authenticated%}
+          <a type="button"  href = "/users/login/"  class="btn btn-outline-light me-2">Login</a>
+          <a type="button" href = "/users/register/"  class="btn btn-warning">Sign-up</a>
+          {%endif%}
+          {%if user.is_authenticated%}
+          <a type="button"  href = "/admin/logout/?next=/"  class="btn btn-outline-light me-2">log out</a>
+          {%endif%}
         </div>
       </div>
     </div>

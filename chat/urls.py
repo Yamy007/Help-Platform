@@ -11,4 +11,6 @@ urlpatterns = [
     path('', views.post_help, name = "post"),
     path('chat/<int:id>/', views.post_post, name = "post"),
     path('id/<str:room_id>/', views.group_view, name='room'),
+    path('messages/user/<str:username>/', views.find_user, name = "username")
+    
 ]

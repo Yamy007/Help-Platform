@@ -88,3 +88,6 @@ def edit_post(request, id):
     search_article.text = request.POST.get("text")
     search_article.save()
     return redirect("mypost")
+
+def go(request):
+    return redirect("/")
