@@ -1,0 +1,38 @@
+{% extends "test/layout.html"%}
+
+
+{%block content%}
+{%for elem in test%}
+<form action="/test/test/{{id}}/result" method="post">
+    {%csrf_token%}
+<article class="l-design-widht">
+    <div class="card">
+       
+        <label class="input">
+          <input class="input__field" type="text" value="{{elem}}" disabled/>
+
+        </label>
+        <div class="button-group">
+            <label>
+                <input type="radio" name="{{elem}}" value="1" required>
+                Yes
+                </label>
+                <label>
+                <input type="radio" name="{{elem}}" value ="0" required>
+                No
+            </label>
+            <label>
+                <input type="radio" name="{{elem}}" value ="2" required>
+                Maybe, I`m not sure..
+            </label>
+            <label>
+                <input type="radio" name="{{elem}}" value ="3" required>
+                Sometimes
+            </label>           
+        </div>
+      </div>
+</article>
+    {%endfor%}
+    <button type = "submit" class = "mt-3 position">Result</button>
+</form>
+{%endblock%}
