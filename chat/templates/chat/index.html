@@ -18,25 +18,16 @@
 </ul>
 {% endif %} {% endif %}
 
-<h1 class="title">The hottest groups🔥</h1>
-<ul>
-  {% for group_name in best_groups %}
-  <a href="{% url 'index' %}{{ group_name }}">
-    <li style="color: {{hot_group_color}}; border-color: {{hot_group_color}};"
-      class="btn btn-outline-danger custom-btn">{{ group_name }}</li>
-  </a>
-  {% endfor %}
-</ul>
 
-<h1 class="title">Latest groups 🆕</h1>
-<ul>
-  {% for group_name in last_groups %}
-  <a href="{% url 'index' %}{{ group_name }}">
-    <li style="color: {{last_group_color}}; border-color: {{last_group_color}};"
-      class="btn btn-outline-primary custom-btn">{{ group_name }}</li>
-  </a>
-  {% endfor %}
-</ul>
+<input placeholder="enter text">
+
+
+
+
+
+
+
+
 <script>
   document.querySelector("#room-name-input").focus();
   document.querySelector("#room-name-input").onkeyup = function (e) {

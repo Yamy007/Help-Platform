@@ -4,7 +4,7 @@ from csv import list_dialects
 from datetime import datetime
 from django.contrib import admin
 from django.utils.html import format_html
-from .models import Message, Chat, Customize
+from .models import Message, Chat,Room, Customize, TypePostHelp, PostHelp
 
 
 class MessageAdmin(admin.ModelAdmin):
@@ -56,4 +56,8 @@ class CustomizeAdmin(admin.ModelAdmin):
 
 admin.site.register(Message, MessageAdmin)
 admin.site.register(Chat, ChatAdmin)
+admin.site.register(PostHelp)
+admin.site.register(Room)
+
+admin.site.register(TypePostHelp)
 admin.site.register(Customize, CustomizeAdmin)

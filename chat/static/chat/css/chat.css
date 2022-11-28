@@ -1,0 +1,214 @@
+@font-face {
+  font-family: "IRAN Sans";
+  src: url("../assets/IRANSansWeb.woff2") format("woff2");
+}
+
+body {
+  background: #eee;
+  font-family: "IRAN Sans", sans-serif;
+  margin: 0;
+}
+
+:root {
+  --reply: #16a085;
+  --send: #2980b9;
+  --input: #bdc3c7;
+  --input-button: #7f8c8d;
+  --input-button-hover: #95a5a6;
+  --placeholder: #565f62;
+  --time: #333333;
+}
+
+::placeholder {
+  color: var(--placeholder);
+}
+
+.chat-label {
+  overflow: hidden;
+  background-color: #2d3436;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 10;
+}
+
+.chat-label a {
+  float: right;
+  display: block;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+}
+
+.chat-label p {
+  margin: 0;
+  margin-top: 5px;
+  float: right;
+  display: block;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+}
+
+.chat-label a:hover {
+  background: #5c5c5c;
+}
+
+.chat-body .answer.left {
+  padding: 0 0 0 25px;
+  text-align: left;
+  float: left;
+}
+
+.chat-body .answer {
+  position: relative;
+  max-width: 600px;
+  overflow: hidden;
+  clear: both;
+}
+
+.chat-body .answer:first-child {
+  margin-top: 70px;
+}
+.chat-body .answer:last-child {
+  margin-bottom: 100px;
+}
+
+.chat-body .answer .name {
+  margin-top: 10px;
+  font-size: 15px;
+  line-height: 36px;
+}
+
+.chat-body .answer.left .text {
+  background: var(--reply);
+  color: #fff;
+  border-radius: 12px 12px 12px 0;
+}
+
+.chat-body .answer.left .text:before {
+  left: -24px;
+  border-right-color: var(--reply);
+  border-right-width: 12px;
+}
+
+.chat-body .answer .text {
+  padding: 12px;
+  font-size: 16px;
+  line-height: 26px;
+  position: relative;
+}
+
+.chat-body .answer .text:before {
+  content: "";
+  display: block;
+  position: absolute;
+  bottom: 0;
+  border: 18px solid transparent;
+  border-bottom-width: 0;
+}
+
+.chat-body .answer.left .time {
+  padding-right: 10px;
+  color: var(--time);
+  direction: ltr;
+}
+
+.chat-body .answer .time {
+  font-size: 16px;
+  line-height: 36px;
+  position: relative;
+  padding-bottom: 1px;
+}
+
+.chat-body .answer.right {
+  padding: 0 25px 0 0;
+  text-align: right;
+  float: right;
+}
+
+.chat-body .answer.right .text {
+  background: var(--send);
+  color: #fff;
+  border-radius: 12px 12px 0 12px;
+}
+
+.chat-body .answer.right .text:before {
+  right: -24px;
+  border-left-color: var(--send);
+  border-left-width: 12px;
+}
+
+.chat-body .answer.right .time {
+  padding-left: 10px;
+  color: var(--time);
+  direction: ltr;
+}
+
+.message-input {
+  bottom: 0;
+  width: 100%;
+  z-index: 99;
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: flex-end;
+  margin-bottom: 5px;
+}
+
+.message-input input {
+  direction: rtl;
+  font-family: "IRAN Sans", sans-serif;
+  border: none;
+  width: calc(100% - 165px);
+  max-width: 700px;
+  height: 40px;
+  padding: 5px 16px 5px 4px;
+  font-size: 1.3em;
+  border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px;
+  color: #000;
+  background-color: var(--input);
+}
+
+.message-input input:focus {
+  outline: none;
+}
+
+.message-input button {
+  padding-top: 5px;
+  border: none;
+  width: 60px;
+  height: 50px;
+  cursor: pointer;
+  font-size: 1.8em;
+  background: var(--input-button);
+  color: #000;
+}
+
+.message-input .send-msg {
+  border-top-right-radius: 20px;
+  border-bottom-right-radius: 20px;
+}
+
+.message-input button:hover {
+  background: var(--input-button-hover);
+}
+
+.message-input button:focus {
+  outline: none;
+}
+
+.image {
+  max-width: 50%;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.image:hover {
+  opacity: 0.7;
+}

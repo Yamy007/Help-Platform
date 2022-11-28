@@ -1,29 +1,55 @@
-"""chat views
-"""
+import secrets
 import json
 from django.core.paginator import Paginator
 from django.shortcuts import redirect, render
 from django.utils.safestring import mark_safe
 from django.contrib.auth.decorators import login_required
 from django.utils.text import slugify
-from .models import Chat, Customize
+from .models import Chat, Customize,Room ,PostHelp, TypePostHelp
 
 
-def index(request: object):
+def post_help(request: object):
+    choose = TypePostHelp.objects.all()
+    new_post = PostHelp.objects.all().order_by("-date")
+    return render(request, "chat/post.html", {"choose":choose, "post": new_post})
+
+def post_post(request: object, id):
+    find = PostHelp.objects.filter(id = id)
+    check_user_1 = Room.objects.filter(user_1 = find[0].owner)
+    check_user_2 = Room.objects.filter(user_2 = request.user.username)
+    if len(check_user_1) == 0  and len(check_user_2) == 0:
+        
+    
+        create_hash = secrets.token_hex(nbytes=16)
+        
+        
+        room = Room()
+        room.user_1  = find[0].owner
+        room.name = create_hash
+        room.reason = find[0].title
+        room.user_2 = request.user.username
+        room.save()
+        return redirect(f"/chat/chat/transform/{create_hash}")
+    else:
+
+        search_user_1 = Room.objects.filter(user_1= find[0].owner)
+        search_room = search_user_1.filter(user_2 = request.user.username)
+        return redirect(f"/chat/chat/transform/{search_room[0].name}")
+
+
+    
+    
+def user(request: object):
     user = request.user
-    color_fields = Customize.get_all_fields()
-    context = {
-        'best_groups': Chat.best_group(),
-        'last_groups': Chat.last_group(),
-    }
+
     if user.is_authenticated:
         your_groups = Chat.your_group(user)
-        context['your_groups'] = your_groups
-        context['your_groups_len'] = len(your_groups)
-    context = {**context, **color_fields}
-    return render(request, "chat/index.html", context)
-
-
+        your_room_owner = Room.objects.filter(user_1 = request.user )
+        your_room = Room.objects.filter(user_2 = request.user.username)
+        return render(request, "chat/user.html", {"rooms": your_room_owner, "room": your_room})
+    else:
+        redirect("/users/login")
+        
 
 def room(request: object, room_name: str):
     room_name = slugify(room_name, allow_unicode=True)

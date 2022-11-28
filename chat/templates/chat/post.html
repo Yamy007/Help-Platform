@@ -1,0 +1,24 @@
+{%for i in choose%}
+<h4>{{i.type_post}}</h4>
+{%endfor%}
+
+
+<p>-----------</p>
+
+
+
+{%for i in post%}
+<h1>{{i.title}}</h1>
+<h1>{{i.text}}</h1>
+<h1>{{i.date}}</h1>
+<form action = "/chat/chat/{{i.id}}/" method = "post">
+   {%csrf_token%}
+   {%if user == i.owner%}
+   <h1>Its your post</h1>
+   {%endif%}
+   
+   {%if user != i.owner%}
+    <button type = "submit">Help you</button>
+   {%endif%}
+</form>
+{%endfor%}

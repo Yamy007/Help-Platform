@@ -1,0 +1,20 @@
+{%for i in rooms%}
+{%if user.username == i.user_2%}
+
+<a href = "/chat/chat/transform/{{i}}">{{i.user_1}} - {{i.reason}}</a>
+{%endif%}
+{%if user.username != i.user_2%}
+    <a href = "/chat/chat/transform/{{i}}">{{i.user_2 }} - {{i.reason}}</a>
+{%endif%}
+
+{%endfor%}
+
+{%for i in room%}
+{%if user.username == i.user_2%}
+
+<a href = "/chat/chat/transform/{{i}}">{{i.user_1}} - {{i.reason}}</a>
+{%endif%}
+{%if user.username != i.user_2%}
+    <a href = "/chat/chat/transform/{{i}}">{{i.user_2}} - {{i.reason}}</a>
+{%endif%}
+{%endfor%}
